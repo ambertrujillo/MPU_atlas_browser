@@ -1,0 +1,32 @@
+<svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>CARD-MPU Atlas Browser logo</title>
+<desc>A square icon depicting clustered scatter points resembling a UMAP plot, next to the wordmark CARD-MPU Atlas Browser and the subtitle single-nucleus RNA-seq atlas.</desc>
+
+<rect x="30" y="30" width="140" height="140" rx="16" fill="#1c2541"/>
+
+<circle cx="75" cy="70" r="5" fill="#8fb8e3"/>
+<circle cx="88" cy="62" r="4" fill="#8fb8e3"/>
+<circle cx="65" cy="85" r="4" fill="#8fb8e3"/>
+<circle cx="95" cy="80" r="5" fill="#8fb8e3"/>
+<circle cx="80" cy="95" r="4" fill="#8fb8e3"/>
+<circle cx="70" cy="60" r="3" fill="#6a9fd8"/>
+
+<circle cx="130" cy="65" r="5" fill="#b39ce8"/>
+<circle cx="142" cy="75" r="4" fill="#b39ce8"/>
+<circle cx="120" cy="80" r="4" fill="#b39ce8"/>
+<circle cx="135" cy="90" r="5" fill="#b39ce8"/>
+<circle cx="148" cy="60" r="3" fill="#8f6fd6"/>
+<circle cx="115" cy="68" r="3" fill="#8f6fd6"/>
+
+<circle cx="95" cy="130" r="5" fill="#e8a06a"/>
+<circle cx="108" cy="122" r="4" fill="#e8a06a"/>
+<circle cx="82" cy="140" r="4" fill="#e8a06a"/>
+<circle cx="112" cy="145" r="5" fill="#e8a06a"/>
+<circle cx="90" cy="115" r="3" fill="#d68b4a"/>
+<circle cx="120" cy="135" r="3" fill="#d68b4a"/>
+
+<text x="200" y="95" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600" fill="#1c2541">CARD-MPU</text>
+<text x="200" y="128" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#3d5a80" letter-spacing="1.5">ATLAS BROWSER</text>
+<line x1="200" y1="145" x2="480" y2="145" stroke="#8fb8e3" stroke-width="1"/>
+<text x="200" y="168" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#6a7d99">Single-nucleus RNA-seq atlas</text>
+</svg>
