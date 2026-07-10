@@ -1,3 +1,4 @@
+*.h5ad filter=lfs diff=lfs merge=lfs -text
 data/Neu_adata_trimmed.h5ad filter=lfs diff=lfs merge=lfs -text
 data/Neu_adata_trimmed.h5ad.zip filter=lfs diff=lfs merge=lfs -text
 data/Thalamus_SampleID.csv filter=lfs diff=lfs merge=lfs -text
