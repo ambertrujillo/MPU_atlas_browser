@@ -12,7 +12,15 @@ The app provides two main views:
  
 ### Prerequisites
 - R (version 4.4 or later recommended)
+```bash
+conda install -c conda-forge r-base
+```
+- Large file storage
+```bash
+conda install -c conda-forge git-lfs -y
+```
 - Internet access on first run (for package installation)
+
 ### 1. Install dependencies
 Run this once, the first time you set up the app on a new machine:
 ```bash
