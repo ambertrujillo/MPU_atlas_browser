@@ -31,3 +31,17 @@ if (!py_ok) {
 } else {
   message(">>> Python 'anndata' module found and reachable via reticulate. Setup complete.")
 }
+
+# --- Unzip datafiles ---
+zip_files <- list.files("data", pattern = "\\.zip$", full.names = TRUE)
+
+for (zip_path in zip_files) {
+  expected_output <- sub("\\.zip$", "", zip_path)
+  if (!file.exists(expected_output)) {
+    message(">>> Unzipping ", zip_path)
+    unzip(zip_path, exdir = dirname(zip_path))
+  } else {
+    message(">>> ", expected_output, " already exists, skipping.")
+  }
+}
+
