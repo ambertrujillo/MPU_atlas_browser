@@ -1,4 +1,4 @@
-# CARD-MPU Atlas Browser
+# CARD-MPU Atlas Browser ![screenshot](www/card_mpu_logo.svg)
  
 An interactive Shiny app for exploring single-nucleus RNA-seq data from the CARD-MPU atlas', spanning Alzheimer's disease (AD) and frontotemporal dementia (FTD) across the Trujillo, Marsan, and Mathys cohorts.
  
