@@ -26,7 +26,7 @@ Run this once, the first time you set up the app on a new machine:
 ```bash
 Rscript setup.R
 ```
-This installs the required R packages (`shiny`, `ggplot2`, `ggpubr`, `reticulate`, `anndata`) and configures the Python environment used for AnnData/single-cell feature plots. You only need to run this once — subsequent launches will skip anything already installed.
+This installs the required R packages (`shiny`, `ggplot2`, `ggpubr`, `reticulate`, `anndata`, `ggrastr`) and configures the Python environment used for AnnData/single-cell feature plots. You only need to run this once — subsequent launches will skip anything already installed.
  
 ### 2. Launch the app
 ```bash
