@@ -46,26 +46,62 @@ synapse_config <- path.expand("~/.synapseConfig")
 
 if (file.exists(synapse_config)) {
   message(">>> Found existing .synapseConfig at ", synapse_config)
-  message(">>> Synapse is already configured. To reconfigure, delete ", synapse_config)
-  message(">>> and run setup.R again.")
-} else {
-  # Credentials need to be provided via environment variables or command line args
-  synapse_username <- Sys.getenv("SYNAPSE_USERNAME")
-  synapse_authtoken <- Sys.getenv("SYNAPSE_AUTH_TOKEN")
   
+  # Only prompt if running interactively
+  if (interactive()) {
+    cat(">>> Would you like to update it? (y/n): ")
+    update_config <- tolower(readLines(con = "stdin", n = 1))
+    
+    if (update_config == "y") {
+      file.remove(synapse_config)
+      message(">>> Removed old configuration. Creating new one...")
+    } else {
+      message(">>> Keeping existing Synapse configuration.")
+    }
+  } else {
+    message(">>> To reconfigure, delete ", synapse_config, " and run setup.R again.")
+  }
+}
+
+# Prompt for credentials if config doesn't exist or was removed
+if (!file.exists(synapse_config)) {
+  synapse_username <- ""
+  synapse_authtoken <- ""
+  
+  # Try interactive input first
+  if (interactive()) {
+    message("\n>>> Please enter your Synapse credentials:")
+    message(">>> (Get your auth token from: https://www.synapse.org -> Settings -> Personal Access Tokens)")
+    
+    cat("Synapse username: ")
+    synapse_username <- readLines(con = "stdin", n = 1)
+    
+    cat("Synapse auth token (Personal Access Token): ")
+    synapse_authtoken <- readLines(con = "stdin", n = 1)
+  } else {
+    # Fall back to environment variables for non-interactive mode
+    synapse_username <- Sys.getenv("SYNAPSE_USERNAME")
+    synapse_authtoken <- Sys.getenv("SYNAPSE_AUTH_TOKEN")
+  }
+  
+  # Validate inputs
   if (nchar(synapse_username) == 0 || nchar(synapse_authtoken) == 0) {
-    message("\n>>> Synapse credentials not found.")
-    message(">>> Please run setup.R with your credentials as environment variables:")
-    message(">>>")
-    message(">>> SYNAPSE_USERNAME='your_username' SYNAPSE_AUTH_TOKEN='your_token' Rscript setup.R")
-    message(">>>")
-    message(">>> Or manually create ~/.synapseConfig with:")
-    message(">>> [authentication]")
-    message(">>> username = your_username")
-    message(">>> authtoken = your_token")
-    message(">>>")
-    message(">>> Get your auth token from: https://www.synapse.org -> Settings -> Personal Access Tokens")
-    message("\n>>> Skipping Synapse configuration for now...")
+    if (interactive()) {
+      stop("!!! Username and auth token cannot be empty. Please run setup.R again.")
+    } else {
+      message("\n>>> Synapse credentials not found.")
+      message(">>> Please run setup.R with your credentials as environment variables:")
+      message(">>>")
+      message(">>> SYNAPSE_USERNAME='your_username' SYNAPSE_AUTH_TOKEN='your_token' Rscript setup.R")
+      message(">>>")
+      message(">>> Or manually create ~/.synapseConfig with:")
+      message(">>> [authentication]")
+      message(">>> username = your_username")
+      message(">>> authtoken = your_token")
+      message(">>>")
+      message(">>> Get your auth token from: https://www.synapse.org -> Settings -> Personal Access Tokens")
+      message("\n>>> Skipping Synapse configuration for now...")
+    }
   } else {
     # Create .synapseConfig
     config_content <- paste0(
@@ -84,7 +120,8 @@ if (file.exists(synapse_config)) {
     # Test Synapse login
     message("\n>>> Testing Synapse connection...")
     synapse <- tryCatch({
-      syn <- import("synapseclient")
+      synapseclient <- import("synapseclient")
+      syn <- synapseclient$Synapse()
       syn$login(silent = TRUE)
       message(">>> Successfully logged in to Synapse as: ", syn$username)
       syn

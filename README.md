@@ -15,10 +15,6 @@ The app provides two main views:
 ```bash
 conda install -c conda-forge r-base
 ```
-- Large file storage
-```bash
-conda install -c conda-forge git-lfs -y
-```
 - Internet access on first run (for package installation)
 
 ### 1. Install dependencies
