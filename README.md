@@ -22,9 +22,14 @@ conda install -c conda-forge git-lfs -y
 - Internet access on first run (for package installation)
 
 ### 1. Install dependencies
-Run this once, the first time you set up the app on a new machine:
+Run this once, interactively, the first time you set up the app on a new machine:
 ```bash
-Rscript setup.R
+R
+```
+```bash
+source("setup.R")
+Synapse username: <your_username>
+Synapse auth token (Personal Access Token): <your_access_token>
 ```
 This installs the required R packages (`shiny`, `ggplot2`, `ggpubr`, `reticulate`, `anndata`, `ggrastr`) and configures the Python environment used for AnnData/single-cell feature plots. You only need to run this once — subsequent launches will skip anything already installed.
  
