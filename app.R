@@ -1,3 +1,6 @@
+# Force reticulate to use conda Python
+Sys.setenv(RETICULATE_PYTHON = "/opt/miniconda3/bin/python")
+
 # ============================================================
 # CRITICAL: this must be the absolute first code that runs.
 # Setting RETICULATE_PYTHON before library(reticulate) is loaded
@@ -20,7 +23,7 @@ library(ggrastr)
 # ============================================================
 h5ad_lookup <- list(
   thalamus = list(
-    full_atlas      = "data/thalamus_adata.h5ad",
+    full_atlas      = "data/combined_reclustered_trimmed.h5ad",
     neuron_subtypes = "data/Neu_thalamus_adata.h5ad"
   )
 )
@@ -597,7 +600,7 @@ server <- function(input, output, session) {
         geom_point(size = 0.25) +
         scale_color_gradientn(colors = c("yellow", "red", "purple", "darkblue")) +
         coord_fixed() +
-        theme_void() +
+        theme_classic() +
         labs(title = g, color = "Expr.") +
         theme(plot.title = element_text(size = 11, face = "bold"),
               legend.key.size = unit(0.3, "cm"),

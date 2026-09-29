@@ -20,13 +20,10 @@ conda install -c conda-forge r-base
 ### 1. Install dependencies
 Run this once, interactively, the first time you set up the app on a new machine:
 ```bash
-R
+bash setup.sh
 ```
-```bash
-source("setup.R")
-Synapse username: <your_username>
-Synapse auth token (Personal Access Token): <your_access_token>
-```
+You will be prompted to enter your Synapse username: <your_username> and Synapse auth token (Personal Access Token): <your_access_token>.
+
 This installs the required R packages (`shiny`, `ggplot2`, `ggpubr`, `reticulate`, `anndata`, `ggrastr`) and configures the Python environment used for AnnData/single-cell feature plots. You only need to run this once — subsequent launches will skip anything already installed.
  
 ### 2. Launch the app
@@ -46,20 +43,33 @@ The app expects the following files to be present locally under `data/`:
 | `Thalamus_SampleID.csv` | Sample-level pseudobulk violin plot |
 | `Thalamus_generalDisease_celltype.csv` | Cell-type barplot |
 | `Thalamus_generalDisease_celltype_splitFTD` | Cell-type barplot, split by FTD type |
-| `combined_reclustered.h5ad` | Feature plot — full atlas |
-| `Neu_adata_annotation_04142026.h5ad` | Feature plot — neuron subtypes only |
+| `combined_reclustered_trimmed.h5ad` | Feature plot — full atlas |
+| `Neu_thalamus_adata.h5ad` | Feature plot — neuron subtypes only |
  
 These files are not included in this repository due to size. Contact [your name / group] for access, and place them in `data/` before launching the app.
  
 ---
  
 ## Troubleshooting
- 
-**`setup.R` reports Python `anndata` not found** — re-run `Rscript setup.R`; it will attempt to install it automatically into the environment `reticulate` is bound to. If the issue persists, see the comments in `setup.R` for manual fix options (e.g., `reticulate::py_install("anndata")` or setting up a named conda environment).
- 
-**"File not found" errors when loading data** — confirm the files listed above are present under `data/` with the exact filenames shown.
- 
-**Feature plot fails after a successful AnnData load** — confirm the embedding key (`X_umap_mnn`) and expression layer (`cpm`) referenced in `app.R` actually exist in the loaded object; the app will report which keys are available if there's a mismatch.
+
+**Python environment issues (anndata not found)** — The app uses `reticulate` to access Python's anndata library. If you see "ModuleNotFoundError: No module named 'anndata'", reticulate may be using a different Python than where conda installed packages. Fix by adding this line to the very top of `app.R` (before any library calls):
+```r
+Sys.setenv(RETICULATE_PYTHON = "/opt/miniconda3/bin/python")
+```
+Then restart your R session. Verify with `reticulate::py_config()` and `reticulate::py_module_available("anndata")`.
+
+**Missing R or Python packages after setup** — Re-run `./setup.sh`. It will install any missing conda packages (R and Python) and configure Synapse credentials if needed.
+
+**"File not found" errors when loading data** — Confirm that `setup.sh` successfully downloaded files to `data/` and that the filenames in `app.R` match exactly. Check:
+- `data/combined_reclustered_trimmed.h5ad`
+- `data/Neu_thalamus_adata.h5ad`  
+- `data/Thalamus_*.csv` files
+
+**Feature plot fails after successful AnnData load** — Verify that the embedding key (`X_umap_mnn`) and expression layer (`cpm`) exist in your h5ad file. The app will report available keys if there's a mismatch. Check your AnnData object structure matches what the app expects.
+
+**Synapse download fails during setup** — Verify your Personal Access Token has "Download" permissions enabled (not just "View"). Create a new token at https://www.synapse.org → Settings → Personal Access Tokens, making sure to check the "Download" scope.
+
+**Cairo/XQuartz errors** — The app uses standard PDF output and doesn't require Cairo. If you see Cairo-related errors, they should not prevent the app from running. Graphics will still render correctly.
  
 ---
  
@@ -67,7 +77,7 @@ These files are not included in this repository due to size. Contact [your name 
 ```
 .
 ├── app.R          # Main Shiny application
-├── setup.R        # One-time dependency installation
+├── setup.sh        # One-time dependency installation
 ├── app.sh         # App launcher
 ├── data/          # Input CSVs and h5ad files (not tracked in git)
 └── www/           # Static assets (logo, reference images)
